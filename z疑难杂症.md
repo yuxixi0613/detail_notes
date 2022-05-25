@@ -239,6 +239,8 @@ return new Promise(() => {});
 
 定义一个值去参考一个值
 
+#### 占位思想
+
 ------
 
 # 9.事件回调与事件对象
@@ -691,6 +693,58 @@ token后端做的
 ```js
 	两个标识都存在的话，后台会合并临时id对应的信息到token对应的信息上 token是老大
 ```
+
+
+
+------
+
+# 27.element-ui气泡确认框的事件 之 官方坑
+
+
+
+气泡确认框点击确定按钮的事件名称叫 onConfirm 不是confirm  （经源码确认）官网写错了
+
+
+
+
+
+------
+
+# 28. vue elementUI tree树形控件获取父节点ID的实例
+
+> 原本是只带了一个父级id
+>
+> 需要修改为带上从一级到n级的id
+>
+> 
+>
+> 分配权限
+> 					需要修改源码，获取所有的上级id，否则权限添加不上
+
+
+
+## 解决-修改源码:
+
+###     情况1: element-ui没有实现按需引入打包
+
+> ​     node_modules\element-ui\lib\element-ui.common.js   25382行修改源码  去掉 'includeHalfChecked &&'
+>
+> ​     // if ((child.checked || includeHalfChecked && child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
+>
+> ​     if ((child.checked || child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
+>
+
+###     情况2: element-ui实现了按需引入打包
+
+> ​     node_modules\element-ui\lib\tree.js   1051行修改源码  去掉 'includeHalfChecked &&'
+>
+> ​     // if ((child.checked || includeHalfChecked && child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
+>
+> ​     if ((child.checked || child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
+
+
+
+
 
 
 

@@ -131,6 +131,9 @@ let unionSet = Array.from(new Set([...a, ...b]))
 var flattened = [[0, 1], [2, 3], [4, 5]].reduce((a, b) => {
     return a.concat(b);
 });
+
+ES 10 API：
+arr.flat(深度)  深度：1、 2、…… Infinity
 // flattened is [0, 1, 2, 3, 4, 5]
 ```
 
@@ -345,6 +348,75 @@ import * as xxx from './xxx'
 
 
 
+### ！引入并暴露
+
+
+
+```js
+引入并暴露
+即先引入再暴露
+
+可以这么理解，但是是错误写法
+import trademark from './trademark'	简写
+import {default as trademark} from './trademark'	全写
+export trademark
+
+
+```
+
+
+
+```js
+！！！默认暴露的时候不能简写
+export {default as trademark} from './trademark'
+export {default as attr} from './attr'
+
+下面 user.js 中是分别暴露的，可以简写
+export * as user from './user'
+```
+
+
+
+```js
+最终暴露出 index.js 的对象是这样的结构
+{
+    trademark:{
+        remove
+    }
+    user:{
+        login
+    }
+}
+
+```
+
+
+
+------
+
+# 拷贝
+
+```js
+1.什么是拷贝？
+拷贝说的是数据拷贝，拷贝一定会出现新的内存空间
+
+2.深拷贝和浅拷贝
+深拷贝和浅拷贝针对的都是对象数据，对象数据当中的属性是对象数据，此时才会区分深浅拷贝
+
+浅拷贝：
+	当拷贝一个对象时，对象内部的对象数据，地址值是一样的，属于浅拷贝
+	若对象内部不存在对象数据，那么浅拷贝就叫拷贝，拷贝其实说的就是外部的对象
+    浅拷贝后的地址*一样*，改变浅拷贝的新数据会影响原数据
+
+深拷贝：
+	当拷贝一个对象时，对象内部的对象数据，地址值是*不*一样的，属于深拷贝
+	若对象内部不存在对象数据，那么深拷贝就叫拷贝，拷贝其实说的就是外部的对象
+    深拷贝后的地址*不一样*，改变深拷贝的新数据*不会*影响原数据
+
+3.如何选择深拷贝还是浅拷贝？
+看拷贝的对象内部有没有对象，若有则深拷贝，若无则浅拷贝
+```
+
 
 
 ------
@@ -359,7 +431,13 @@ import * as xxx from './xxx'
 
 # 事件修饰符
 
+.native
 
+.stop
+
+.prevent
+
+.once
 
 
 
@@ -454,6 +532,71 @@ computed: {
 
 
 
+### state
+
+### mutations
+
+### actions
+
+### getters
+
+
+
+### modules
+
+在大store（index.js）里配置，里面配小store的模块文件对象
+
+```js
+引入
+import Vue from 'vue'
+import Vuex from 'vuex'
+import getters from './getters'
+import app from './modules/app'
+import settings from './modules/settings'
+import user from './modules/user'
+
+创建配置
+const store = new Vuex.Store({
+	modules: {
+    	app,
+    	settings,
+    	user
+	},
+  	getters
+})
+
+暴露
+export default store
+```
+
+
+
+### namespaced命名空间
+
+```js
+
+namespaced:true		开启命名空间
+开启之后，所有的getters、mutations、actions在使用的时候，都要添加模块名
+user/login，
+
+```
+
+
+
+```js
+使用了模块化，但未开启命名空间
+不能使用数组的形式，而使用对象的方式
+...mapState({
+    token: state => state.user.token
+})
+
+使用了模块化，也开启了命名空间，这样做的好处是：
+1.不同模块中的函数可以同名
+2.mapState和mapGetters就可以继续写数组了，如果写数组，第一名字要一致，第二要添加两个参数
+...mapState('user',['token'])
+
+```
+
 
 
 
@@ -496,14 +639,68 @@ api
 
 是默认参数，即传递过来的数据
 
+**注意：**
+
+> 1. 不使用圆括号，只能传入一个参数即**$event**
+>2. 若想传递多个数据，则把多个数据包装成对象、数组的方式作为一个参数去传递
+
+
+
 #### 原生事件中的$event
 
 是事件对象
 
 **注意两点:**
 
-> 1. 不使用圆括号，event被自动当作实参传入
-> 2. 使用圆括号，必须显式的传入event对象，如果不传入可能最终找到的是全局的window .event
+> 1. 不使用圆括号，这个情况一般是没有别的参数时候，event事件对象会被自动当作实参传入
+> 2. 使用圆括号，必须显式的传入`$event`事件对象，如果不传入可能最终找到的是全局的window .event
+> 2. 使用圆括号，显示传入`$event`事件对象，后面可以传入多个参数
+
+------
+
+# 插槽
+
+### 默认插槽和具名插槽
+
+```js
+一个template对应一个插槽，每个template都要写v-slot，代表给哪个插槽填坑
+
+如果是默认插槽
+v-slot:default
+默认插槽只能有一个
+
+具名插槽
+<slot name=""></slot>
+v-slot:aa
+
+```
+
+
+
+### 作用域插槽
+
+```js
+
+1.数据一定是定义或初始化在父组件中
+2.数据要传递给子组件，让子组件去展示使用
+3.子组件在展示的过程中，数据的结构子组件说了不算，由父组件决定
+```
+
+
+
+
+
+------
+
+# sync
+
+
+
+```js
+父组件给子组件属性传递数据后面添加.sync子组件修改数据 
+
+需要分发事件 @click = $emit("update:属性名",要更新的数据) 
+```
 
 
 
@@ -539,6 +736,28 @@ params参数只能在路径当中去写    /user/1
 
 ------
 
+# axios的对象式写法
+
+**axios对象式写法需要注意的是：不同请求方式的参数结构有所不同**
+
+> ##### axios.request(config)
+>
+> ##### axios.get(url[, config])
+>
+> ##### axios.delete(url[, config])
+>
+> ##### axios.head(url[, config])
+>
+> ##### axios.options(url[, config])
+>
+> ##### axios.post(url[, data[, config]])
+>
+> ##### axios.put(url[, data[, config]])
+>
+> ##### axios.patch(url[, data[, config]])
+
+------
+
 # 各种不同写法
 
 :class
@@ -547,7 +766,31 @@ params参数只能在路径当中去写    /user/1
 
 ##### 数组
 
+```js
+['todos']
+```
+
+
+
 ##### 对象
+
+```js
+{todos:Array}
+```
+
+
+
+##### 对象
+
+```js
+{todos:{ type:Array,validato:(value) => {
+    return value > 100
+}}}
+```
+
+
+
+
 
 ## **mapstate**
 
@@ -848,7 +1091,7 @@ context = {  dispatch: local.dispatch,
    >   Vue.prototype.$alert = MessageBox.alert;
    >   Vue.prototype.$confirm = MessageBox.confirm;
    >   Vue.prototype.$prompt = MessageBox.prompt;
-   >       
+   >                         
    >   Vue.prototype.$message = Message;
    >   ```
    >
