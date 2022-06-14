@@ -680,7 +680,7 @@ v-slot:aa
 ### 作用域插槽
 
 ```js
-
+v-slot="{row,$index}"
 1.数据一定是定义或初始化在父组件中
 2.数据要传递给子组件，让子组件去展示使用
 3.子组件在展示的过程中，数据的结构子组件说了不算，由父组件决定
@@ -760,7 +760,16 @@ params参数只能在路径当中去写    /user/1
 
 # 各种不同写法
 
-:class
+## :class
+
+```js
+:class="{
+    up:salesGrowthLastDay >= 0,
+    down:salesGrowthLas
+}"
+```
+
+
 
 ## **props**
 
@@ -792,11 +801,37 @@ params参数只能在路径当中去写    /user/1
 
 
 
-## **mapstate**
+## ...mapState()
+
+```js
+computed: {
+    //万能写法：
+    ...mapState({
+        yyy: (state) => state.xxx
+    }),
+}
+
+或  ...mapState({miaoshu:'description',he:'sum'})
+
+或  ...mapState(['description','sum'])
+```
 
 
 
+## ...mapGetters()
 
+计算数据（使得数据操作简化）在computed中使用...mapGetters
+
+```js
+computed: {
+    //（第一种写法,对象式）靠mapGetters读取vuex中getters里的bigSum
+    ...mapGetters({daHe:'bigSum'})
+
+    //（第二种写法,数组式）靠mapGetters读取vuex中getters里的bigSum
+    ...mapGetters(['bigSum'])
+},
+    
+```
 
 
 
@@ -1091,7 +1126,7 @@ context = {  dispatch: local.dispatch,
    >   Vue.prototype.$alert = MessageBox.alert;
    >   Vue.prototype.$confirm = MessageBox.confirm;
    >   Vue.prototype.$prompt = MessageBox.prompt;
-   >                         
+   >                               
    >   Vue.prototype.$message = Message;
    >   ```
    >

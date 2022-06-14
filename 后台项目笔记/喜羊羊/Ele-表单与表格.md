@@ -89,7 +89,7 @@ prop="遍历的属性"
             </template>
           </el-table-column>
           ...
-        </el-table>
+</el-table>
 ```
 
 

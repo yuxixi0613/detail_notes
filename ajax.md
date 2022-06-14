@@ -12,7 +12,7 @@
 
 #### 2.设置请求信息
 
-`xhr.open(method, url);`
+`xhr.open(method, url,是否异步（默认true);`,
 
 #### 3.发送请求
 

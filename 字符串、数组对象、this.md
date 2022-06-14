@@ -156,3 +156,22 @@ f() // true
 - [Function.prototype.call()](https://wangdoc.com/javascript/oop/this.html#functionprototypecall)
 - [Function.prototype.apply()](https://wangdoc.com/javascript/oop/this.html#functionprototypeapply)
 - [Function.prototype.bind()](https://wangdoc.com/javascript/oop/this.html#functionprototypebind)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

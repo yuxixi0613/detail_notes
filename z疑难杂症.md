@@ -233,11 +233,15 @@ return new Promise(() => {});
 
 #### 计数器思想
 
+count
+
 #### 开关思想
+
+flag
 
 #### 参考值思想
 
-定义一个值去参考一个值
+多定义一个值去参考一个值
 
 #### 占位思想
 
@@ -376,19 +380,27 @@ this.$nextTick是在页面最近一次更新之后，执行传递的回调函数
 
 ------
 
-# 15.节流与防抖
+# 15.防抖与节流
+
+<img src="H:\前端typora笔记\typora-user-images\02_函数防抖与节流.jpg" alt="02_函数防抖与节流" style="zoom: 50%;" />
+
+
 
 #### 正常：
 
 事件触发非常频繁，而且每一次的触发，回调函数都要去执行（如果时间很短，而回调函数内部有计算，那么很可能出现浏览器卡顿）
 
+#### 防抖：
+
+前面的所有的触发都被取消，最后一次执行在规定的时间之后才会，也就是说如果连续快速的触发  只会执行一次
+
+多次变一次
+
 #### 节流：
 
 在规定的间隔时间范围内不会重复触发回调，只有大于这个时间间隔才会触发回调，把频繁触发变为少量触发
 
-#### 防抖：
-
-前面的所有的触发都被取消，最后一次执行在规定的时间之后才会，也就是说如果连续快速的触发  只会执行一次
+多次变少次
 
 
 
@@ -656,6 +668,24 @@ background: url(~@/assets/images/icons.png) no-repeat -10px -201px;
 
 # 25.四种常见错误Error
 
+### 引用错误
+
+变量未定义
+
+### 类型错误
+
+数据用错了
+
+### 语法错误
+
+语法写错了
+
+### 范围错误
+
+内存溢出
+
+
+
 type
 
 reference
@@ -666,7 +696,7 @@ sync
 
 
 
-#### 报错201
+### 报错201
 
 前端请求参数有问题
 
@@ -741,6 +771,22 @@ token后端做的
 > ​     // if ((child.checked || includeHalfChecked && child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
 >
 > ​     if ((child.checked || child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
+
+
+
+------
+
+
+
+# 29. vue3用vite构建项目，创建router的时候，出现process is not defined 报错
+
+在vite.config.ts 中增加define: { 'process.env': {} }就好了
+
+
+
+
+
+
 
 
 

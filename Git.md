@@ -1,6 +1,6 @@
 [TOC]
 
-# 1.Linux命令介绍
+# 1. Linux命令介绍
 
 Linux 是一套开源免费的操作系统。与系统的交互通常用命令来实现，常用的命令有：
 
@@ -16,8 +16,10 @@ Linux 是一套开源免费的操作系统。与系统的交互通常用命令�
 - ctrl + c 取消命令 (cancel)
 - Tab 自动补齐路径
 - <span style="color:red">上下方向键</span>，可以查看命令历史 (history 查看所有的历史命令)
+- rename 
+- ren *.txt *.html     把所有后缀为txt的文件修改为后缀名为html
 
-# 2.VIM编辑器介绍
+# 2. VIM编辑器介绍
 
 Vim 是一款命令行下的文本编辑器，编辑方式跟图形化编辑器不同
 
@@ -34,11 +36,22 @@ Vim 是一款命令行下的文本编辑器，编辑方式跟图形化编辑器�
 
 ------
 
+# 3. git三个区
+
+要对某个项目使用git进行管理，需要使用`git init`命令初始化git仓库
+`git init`会在当前目录生成一个隐藏文件夹 .git  不要去修改这个文件夹下的任意东西。
+
+git仓库会分成三个区
+
+**工作区**：我们书写代码的地方，工作的目录就叫工作区。
+
+**暂存区：**暂时存储的区域，在git中，代码无法直接从工作区提交到仓库区，而是需要先从工作区添加到暂存区，然后才能从暂存区提交到仓库区。暂存区的目的是避免误操作。
+
+**仓库区：**将保存在暂存区域的内容永久转储到 Git 仓库中，生成版本号。生成版本号之后，就可以任何的回退到某一个具体的版本。
 
 
 
-
-# 3.git基本命令
+# 4. git基本命令
 
 ### git init
 
@@ -115,7 +128,29 @@ git config --global user.email ''
 - `git log --oneline` 简洁的日志信息
 - `git reflog ` 查看**所有的**版本信息 ，包括回退的操作
 
-# 4. git重置或版本回退
+### git remote
+
+- `git remote -v` 显示所有远程仓库
+- `git remote show xx` (xx为远程地址的别名) 显示某个远程仓库的信息
+- `git remote add [name] [url]`  作用是添加远程版本库
+- `git remote rm name`    删除远程仓库
+- `git remote rename old_name new_name`   修改仓库名
+
+### git restore 
+
+- `git restore --staged` 将文件从暂存区撤出，但不会撤销文件的更改
+- `git resore` 将不在暂存区的文件撤销更改
+
+### git rm
+
+- `git rm` ： 同时从工作区和索引中删除文件。即本地的文件也被删除了。
+- `git rm --cached` ： 从索引中删除文件。但是本地文件还存在， 只是不希望这个文件被版本控制。
+
+
+
+
+
+# 5. git重置或版本回退
 
 ### git reset
 
@@ -125,7 +160,7 @@ git config --global user.email ''
 
 - 当使用了`git reset`命令后，版本会回退，使用`git log`只能看到**当前版本**之前的信息。使用`git reflog`可以查看所有的版本信息
 
-#  5. git忽略文件
+#  6. git忽略文件
 
 > 在仓库或项目代码中，有些文件是不想被git管理的，比如数据的配置密码、写代码的一些思路，node_modules等。git可以通过配置从而达到忽视掉一些文件，这样这些文件就可以不用提交了。
 
@@ -156,7 +191,7 @@ css
 
 
 
-# 6.git分支操作与合并冲突
+# 7. git分支操作与合并冲突
 
 > 在git中，分支实质上仅仅是一个指针，每次代码提交后，这个分支指针就会向后移动，保证一直指向最后一次提交的的版本。git中使用HEAD指向当前分支
 
@@ -212,7 +247,7 @@ css
 
 ------
 
-# 7.git远程仓库
+# 8. git远程仓库
 
 ## git clone
 
@@ -252,9 +287,9 @@ git pull
 
 
 
-# 7.免密提交
+# 9. 免密提交
 
-## 7.1 SSH免密码登陆
+## 9.1 SSH免密码登陆
 
 git支持多种数据传输协议：
 
@@ -266,7 +301,7 @@ git支持多种数据传输协议：
 - github为了账户的安全，需要对每一次push请求都要验证用户的身份，只有合法的用户才可以push
 - 使用ssh协议，配置ssh免密码，可以做到免密码往github推送代码
 
-## 7.2 SSH免密码登录配置
+## 9.2 SSH免密码登录配置
 
 注意：这些命令需要在bash中敲
 
@@ -282,7 +317,7 @@ git支持多种数据传输协议：
 - 5 在github中新建仓库或者使用现在仓库，拿到`git@github.com:用户名/仓库名.git`
 - 6 此后，再次SSH方式与github“通信”，不用输入密码确认身份了
 
-## 7.3 git remote
+## 9.3 git remote
 
 每次push操作都需要带上远程仓库的地址，非常的麻烦，我们可以给仓库地址设置一个别名
 
@@ -303,6 +338,66 @@ git remote remove shangpinhui
 ```
 
 
+
+```bash
+git remote -v 显示所有远程仓库
+git remote show xx (xx为远程地址的别名) 显示某个远程仓库的信息
+git remote add [name] [url]  作用是添加远程版本库
+git remote rm name    删除远程仓库
+git remote rename old_name new_name   修改仓库名
+```
+
+
+
+
+
+
+
+# 10. git删除远程分支的文件或文件夹
+
+
+
+**包括四种情况**
+
+
+
+1-1.仅删除远程仓库文件，不删除本地
+
+> git rm --cached */src/views/index.vue*   // 注意文件路径，加上*号
+>
+> git commit -m "delete remote file filename "// commit提交，无须add
+>
+> git push origin master(此处是当前分支的名字)// 推送即可
+
+
+
+1-2.仅删除远程仓库文件夹！！文件夹，不删除本地
+
+> git rm -r --cached */src/views*// 注意文件路径，加上*号 , 和删除文件区别在于 -r
+>
+> git commit -m "delete remote file filename "// commit提交，无须add
+>
+> git push origin master(此处是当前分支的名字)// 推送即可
+
+
+
+2-1.删除远程仓库文件，同时删除本地文件  (区别在于 --cached)
+
+> git rm */src/views/index.vue*   // 注意文件路径，加上*号
+>
+> git commit -m "delete remote file filename "// commit提交，无须add
+>
+> git push origin master(此处是当前分支的名字)// 推送即可
+
+
+
+2-2.删除远程仓库文件夹！！文件夹，同时删除本地
+
+> git rm -r */src/views*// 注意文件路径，加上*号 , 和删除文件区别在于 -r
+>
+> git commit -m "delete remote file filename "// commit提交，无须add
+>
+> git push origin master(此处是当前分支的名字)// 推送即可
 
 
 

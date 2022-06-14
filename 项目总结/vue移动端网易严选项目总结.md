@@ -119,7 +119,18 @@ async generateQR(text) {
 
 ### 4.5 支付轮询
 
-至少写5-8条
+```js
+在弹出二维码后，需要开启定时器发送请求 **轮回**`查询支付订单状态`
+
+因为在支付成功后，还需要进行关闭dialog组件、关闭定时器、弹出“支付成功！” 的Toast轻提示 的一些操作
+
+所以需要在actions中 return返回 await等待的请求成功返回的promise对象的值 给到 组件中用result接收
+
+判断 result.code 若为 200 则清空定时器clearInterval(this.timeoutID)，并将timer置为null、关闭dialog、轻提示（支付成功）
+
+```
+
+
 
 
 
